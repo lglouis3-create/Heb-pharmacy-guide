@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="H-E-B Pharmacy App Employee Quick Reference Guide, Store #733" />
+  <title>H-E-B Pharmacy App Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #EE2D24;
+      --blue: #0055A5;
+      --yellow: #FFD100;
+      --bg: #F0F2F5;
+      --surface: #FFFFFF;
+      --border: #E2E8F0;
+      --text: #0F172A;
+      --muted: #64748B;
+      --green: #059669;
+      --orange: #D97706;
+      --teal: #0E7490;
+      --navy: #1E3A5F;
+      --radius: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--red);
+      padding: env(safe-area-inset-top,0) 0 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .header-inner {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px;
+      max-width: 520px; margin: 0 auto;
+    }
+    .back-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.18); border: none;
+      color: white; font-size: 18px; cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:active { background: rgba(255,255,255,0.32); }
+    .back-btn.show { display: flex; }
+    .header-eyebrow {
+      font-size: 10px; font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .header-title {
+      font-size: 16px; font-weight: 800; color: white;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ── VIEWS ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── HOME ── */
+    #home-view {
+      max-width: 520px; margin: 0 auto;
+      padding: 16px 16px 36px;
+    }
+
+    .welcome-banner {
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+      margin-bottom: 16px;
+      position: relative; overflow: hidden;
+    }
+    .welcome-banner::after {
+      content: '💊';
+      position: absolute; right: 14px; bottom: -6px;
+      font-size: 64px; opacity: 0.15; line-height: 1;
+      pointer-events: none;
+    }
+    .welcome-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.9);
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px; margin-bottom: 9px;
+    }
+    .welcome-headline {
+      font-size: 18px; font-weight: 800;
+      color: white; line-height: 1.25; margin-bottom: 7px;
+    }
+    .welcome-body {
+      font-size: 12px; color: rgba(255,255,255,0.82); line-height: 1.6;
+    }
+    .welcome-body strong { color: white; }
+
+    .section-label {
+      font-size: 10px; font-weight: 700;
+      color: var(--muted); letter-spacing: 1.5px;
+      text-transform: uppercase; margin: 16px 0 10px 4px;
+    }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 12px;
+    }
+    .nav-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px 15px 14px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      border: none; text-align: left; width: 100%;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .nav-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--card-color, var(--blue));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .nav-card:active { transform: scale(0.96); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+    .nav-card.full { grid-column: 1 / -1; }
+    .nav-card-icon { font-size: 28px; line-height: 1; margin-bottom: 10px; }
+    .nav-card-title { font-size: 12.5px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+    .nav-card-meta { font-size: 10px; color: var(--muted); font-weight: 500; }
+    .nav-card-arrow { font-size: 10px; font-weight: 700; color: var(--card-color, var(--blue)); margin-top: 8px; }
+
+    .nav-card.dark-style { background: var(--navy); }
+    .nav-card.dark-style::before { background: var(--yellow); }
+    .nav-card.dark-style .nav-card-title { color: white; }
+    .nav-card.dark-style .nav-card-meta { color: rgba(255,255,255,0.55); }
+    .nav-card.dark-style .nav-card-arrow { color: var(--yellow); }
+
+    /* ── SECTION VIEW ── */
+    #section-view {
+      max-width: 520px; margin: 0 auto;
+      padding: 16px 16px 48px;
+    }
+
+    .section-hero {
+      border-radius: var(--radius);
+      padding: 20px 20px 18px;
+      margin-bottom: 16px;
+      color: white;
+      position: relative; overflow: hidden;
+    }
+    .section-hero::after {
+      content: attr(data-icon);
+      position: absolute; right: 12px; bottom: -10px;
+      font-size: 72px; opacity: 0.12; line-height: 1;
+      pointer-events: none;
+    }
+    .section-hero-title { font-size: 19px; font-weight: 800; line-height: 1.2; margin-bottom: 5px; }
+    .section-hero-desc { font-size: 12px; color: rgba(255,255,255,0.82); line-height: 1.6; }
+
+    /* ── BLOCK ── */
+    .block {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px; overflow: hidden;
+    }
+    .block-header {
+      padding: 10px 16px;
+      background: #F8FAFC;
+      border-bottom: 1px solid var(--border);
+      font-size: 10px; font-weight: 700;
+      color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase;
+    }
+
+    /* ── STEPS ── */
+    .step-row {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .step-row:last-child { border-bottom: none; }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--blue); color: white;
+      font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-num.accent { background: var(--red); }
+    .step-title { font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .step-detail { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.55; }
+
+    /* ── FAQ ── */
+    .faq-row { border-bottom: 1px solid var(--border); overflow: hidden; }
+    .faq-row:last-child { border-bottom: none; }
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; padding: 14px 16px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent; user-select: none;
+    }
+    .faq-q:active { background: #F8FAFC; }
+    .faq-q-text { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; flex: 1; }
+    .faq-chevron { font-size: 11px; color: var(--blue); flex-shrink: 0; transition: transform 0.25s ease; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.32s ease; }
+    .faq-a-inner { padding: 0 16px 16px; font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+    .faq-a-inner ul { padding-left: 18px; margin-top: 6px; }
+    .faq-a-inner li { margin-bottom: 5px; }
+    .faq-a-inner strong { color: var(--text); font-weight: 600; }
+    .faq-row.open .faq-chevron { transform: rotate(180deg); }
+    .faq-row.open .faq-a { max-height: 700px; }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      border-radius: 10px; padding: 10px 13px;
+      margin-top: 10px; font-size: 11.5px; line-height: 1.55;
+    }
+    .callout.tip { background: #FFFBEB; border-left: 3px solid var(--yellow); color: #92400E; }
+    .callout.alert { background: #FEF2F2; border-left: 3px solid var(--red); color: #991B1B; }
+    .callout.info { background: #EFF6FF; border-left: 3px solid var(--blue); color: #1E40AF; }
+
+    /* ── CONTACTS ── */
+    .contact-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+      text-decoration: none; color: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row:active { background: #F8FAFC; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .contact-label { font-size: 11px; font-weight: 500; color: var(--muted); }
+    .contact-value { font-size: 14px; font-weight: 800; color: var(--text); }
+    .contact-note { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
+
+    /* ── FOOTER ── */
+    .home-footer {
+      text-align: center; font-size: 10.5px;
+      color: var(--muted); line-height: 1.7; padding: 10px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-inner">
+    <button class="back-btn" id="backBtn" onclick="goHome()" aria-label="Back to home">&#8592;</button>
+    <div>
+      <div class="header-eyebrow" id="headerEyebrow">H-E-B Pharmacy · Store #733</div>
+      <div class="header-title" id="headerTitle">Employee App Guide</div>
+    </div>
+  </div>
+</header>
+
+<!-- HOME VIEW -->
+<div class="view active" id="home-view">
+
+  <div class="welcome-banner">
+    <div class="welcome-tag">My H-E-B Pharmacy · Quick Reference</div>
+    <div class="welcome-headline">Hi, Team! 👋<br>What do you need help with?</div>
+    <div class="welcome-body">Tap any topic to find answers fast. All info is specific to <strong>Store #733</strong>.</div>
+  </div>
+
+  <div class="section-label">Topics</div>
+
+  <div class="card-grid">
+
+    <button class="nav-card" style="--card-color:#0055A5" onclick="openSection('account')">
+      <div class="nav-card-icon">🔐</div>
+      <div class="nav-card-title">Creating an Account</div>
+      <div class="nav-card-meta">Minors, pets, spouses</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card" style="--card-color:#EE2D24" onclick="openSection('verification')">
+      <div class="nav-card-icon">✉️</div>
+      <div class="nav-card-title">Verification Code Issues</div>
+      <div class="nav-card-meta">RxEVO, troubleshooting</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card" style="--card-color:#059669" onclick="openSection('records')">
+      <div class="nav-card-icon">💊</div>
+      <div class="nav-card-title">Pharmacy Records</div>
+      <div class="nav-card-meta">Prescriptions, medication history, immunization records</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card" style="--card-color:#D97706" onclick="openSection('prepay')">
+      <div class="nav-card-icon">💳</div>
+      <div class="nav-card-title">Prepay & Pickup</div>
+      <div class="nav-card-meta">How it works, pickup codes</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card" style="--card-color:#0E7490" onclick="openSection('delivery')">
+      <div class="nav-card-icon">🚚</div>
+      <div class="nav-card-title">Delivery & Scheduling</div>
+      <div class="nav-card-meta">Eligibility, scheduling</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card" style="--card-color:#EE2D24" onclick="openSection('signup')">
+      <div class="nav-card-icon">📲</div>
+      <div class="nav-card-title">Help a Patient Sign Up</div>
+      <div class="nav-card-meta">11-step cheat sheet</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+    <button class="nav-card full dark-style" onclick="openSection('contacts')">
+      <div class="nav-card-icon">📞</div>
+      <div class="nav-card-title">Contacts & Escalation</div>
+      <div class="nav-card-meta">Tech support · Rx Solutions · Store phone</div>
+      <div class="nav-card-arrow">View →</div>
+    </button>
+
+  </div>
+
+  <div class="home-footer">
+    H-E-B Pharmacy · 12125 Alamo Ranch Pkwy, San Antonio TX 78253<br>
+    CORP# 733 · (210) 688-9584 · Updated June 2026
+  </div>
+
+</div>
+
+<!-- SECTION VIEW -->
+<div class="view" id="section-view">
+  <div id="section-hero" class="section-hero"></div>
+  <div id="section-content"></div>
+</div>
+
+<script>
+const sections = {
+
+  account: {
+    title: 'Creating an Account', eyebrow: 'Account Setup',
+    icon: '🔐', color: '#0055A5',
+    desc: 'Common questions when a patient is setting up their My H-E-B account for the first time.',
+    html: `
+      <div class="block">
+        <div class="block-header">Common Questions</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can minors create their own account?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>No.</strong> The app will not allow minors to create their own account.<br><br>
+            However, minors can be <strong>added to an adult's profile.</strong> Walk the parent or guardian through adding the minor after their own account is set up.
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can a patient create an account for their pet?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>No.</strong> The app will not allow pets to create an account.<br><br>
+            Like minors, pets can be <strong>added to an adult's profile</strong> so their prescriptions appear under the owner's account.
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can a patient add their spouse to their account?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> Adults may request to manage another adult's profile.<br><br>
+            <ul>
+              <li>Each adult needs their <strong>own separate heb.com account</strong> linked to their pharmacy record.</li>
+              <li>Adult access must be <strong>requested and approved</strong> before management can begin.</li>
+            </ul>
+            <div class="callout tip">💡 Direct them to submit the request through the app once both accounts are set up.</div>
+          </div></div>
+        </div>
+      </div>`
+  },
+
+  verification: {
+    title: 'Verification Code Issues', eyebrow: 'Troubleshooting',
+    icon: '✉️', color: '#EE2D24',
+    desc: 'Steps to take when a patient is not receiving their verification code during sign-up.',
+    html: `
+      <div class="block">
+        <div class="block-header">Troubleshooting Steps</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Patient is not receiving a verification code</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            Follow these steps <strong>in order:</strong>
+            <ul>
+              <li>Verify the patient's <strong>phone number(s) and email</strong> in RxEVO.</li>
+              <li>Remind them the app offers <strong>three options:</strong> text, email, or phone call.</li>
+              <li><strong>Text and email</strong> are the preferred and fastest methods.</li>
+              <li>After updating in RxEVO, ask the patient to <strong>start enrollment from the beginning.</strong></li>
+            </ul>
+            <div class="callout alert">⚠️ If contact info in RxEVO is wrong, the patient will not receive a code. Always check RxEVO first.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Verification options are not showing up at all</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            If no options appear, the pharmacy <strong>does not have that contact information on file</strong> for this patient.<br><br>
+            <ul>
+              <li>Ask the patient to confirm their phone number and email.</li>
+              <li>Update the missing info in <strong>RxEVO.</strong></li>
+              <li>Have the patient <strong>restart the sign-up process</strong> after the update.</li>
+            </ul>
+            <div class="callout tip">💡 The contact info on file must match what the patient entered in the app.</div>
+          </div></div>
+        </div>
+      </div>`
+  },
+
+  records: {
+    title: 'Pharmacy Records', eyebrow: 'Records & Profiles',
+    icon: '💊', color: '#059669',
+    desc: 'Questions about prescription history, medication records, immunization history, and downloading records.',
+    html: `
+      <div class="block">
+        <div class="block-header">Common Questions</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Patient doesn't see all their medications in the app</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            Check these common causes:
+            <ul>
+              <li>Verify if the patient has <strong>more than one profile in RxEVO.</strong> Duplicate profiles are the most common cause.</li>
+              <li>If profiles need merging, submit the <strong>Pharmacy Patient Profile Merge Request Form</strong> through PartnerNet (steps below).</li>
+              <li><strong>C2 (Schedule II) medications</strong> are considered inactive and sort to the <strong>bottom of the list.</strong> This is expected behavior.</li>
+            </ul>
+            <div class="callout info">
+              <strong>How to submit the Merge Request Form:</strong>
+              <ol style="padding-left:18px; margin-top:6px; margin-bottom:2px;">
+                <li>Log on to <strong>PartnerNet</strong></li>
+                <li>Go to the <strong>Pharmacy</strong> section</li>
+                <li>Under <strong>Pages</strong>, click <strong>Forms</strong></li>
+                <li>Click <strong>System Forms</strong></li>
+                <li>Click <strong>Pharmacy Patient Profile Merge Request Form</strong></li>
+                <li>Fill out the requested information and submit</li>
+              </ol>
+            </div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Does the app include immunization records?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> The Pharmacy Records section in the app includes <strong>prescription history, medication history, and immunization records</strong> all in one place. Patients do not need to look in a separate tab.</div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Patient wants records from 5+ years ago</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            The My H-E-B app allows patients to download records for the <strong>current year and previous two years only.</strong><br><br>
+            For older records, direct the patient to <strong>contact the pharmacy directly.</strong>
+            <div class="callout info">📞 Our store: (210) 688-9584</div>
+          </div></div>
+        </div>
+      </div>`
+  },
+
+  prepay: {
+    title: 'Prepay & Pickup', eyebrow: 'Prepay Feature',
+    icon: '💳', color: '#D97706',
+    desc: 'How to explain the Prepay feature to patients and answer common questions.',
+    html: `
+      <div class="block">
+        <div class="block-header">How It Works</div>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div><div class="step-title">Open the Pharmacy tab</div>
+          <div class="step-detail">Tap the Pharmacy icon at the far right of the bottom navigation bar.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div><div class="step-title">Select prescriptions to pay for</div>
+          <div class="step-detail">Patient selects the ready prescriptions they want to prepay for in that checkout.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div><div class="step-title">Pay & sign digitally</div>
+          <div class="step-detail">Patient enters payment info and signs digitally in the app.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">4</div>
+          <div><div class="step-title">Receive a unique pickup code</div>
+          <div class="step-detail">The app generates a unique barcode for that checkout. Each separate checkout = its own separate code.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">5</div>
+          <div><div class="step-title">Present code at the pharmacy counter</div>
+          <div class="step-detail">Patient shows the barcode. A team member retrieves the prescriptions upon code presentation.</div></div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-header">Common Questions</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Patient paid multiple times. Do they need a separate code each time?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> Each checkout generates its own unique pickup code. Two separate checkouts = two separate codes the patient must present individually.
+            <div class="callout tip">💡 Ask "Did you do more than one checkout?" if a patient seems to be missing items.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Are prescriptions already pulled when the patient arrives?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>No.</strong> Prescriptions are <strong>not pre-pulled.</strong> A team member retrieves them when the patient presents their pickup code at the counter.
+          </div></div>
+        </div>
+      </div>`
+  },
+
+  delivery: {
+    title: 'Delivery & Scheduling', eyebrow: 'Delivery Feature',
+    icon: '🚚', color: '#0E7490',
+    desc: 'Requirements, fees, timing, eligibility, and common patient questions about prescription delivery.',
+    html: `
+      <div class="block">
+        <div class="block-header">Patient Requirements for Delivery</div>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div><div class="step-title">Linked pharmacy account</div>
+          <div class="step-detail">Patient must have a heb.com account with their pharmacy record connected.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div><div class="step-title">Prescriptions must be prepaid in the app</div>
+          <div class="step-detail">Delivery is only available for prescriptions paid online or in the My H-E-B Pharmacy app. Patients unable to pay online can be set up manually by the pharmacy team.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div><div class="step-title">Valid credit or debit card</div>
+          <div class="step-detail">Required to complete payment. FSA card payments require manual setup by the pharmacy. Patient must call us directly.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">4</div>
+          <div><div class="step-title">Within 15 miles of the store</div>
+          <div class="step-detail">The delivery address must be within 15 miles of this pharmacy. If outside the radius, the prescription may need to be transferred to a closer store.</div></div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-header">How Patients Schedule Delivery in the App</div>
+        <div class="step-row">
+          <div class="step-num">1</div>
+          <div><div class="step-title">Open the Pharmacy tab</div>
+          <div class="step-detail">Tap the Pharmacy icon at the far right of the bottom navigation bar.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">2</div>
+          <div><div class="step-title">Select prescriptions and prepay</div>
+          <div class="step-detail">Patient selects ready prescriptions and proceeds to checkout in the app.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">3</div>
+          <div><div class="step-title">Choose Delivery at checkout</div>
+          <div class="step-detail">Patient selects Delivery instead of in-store pickup. The $7.95 fee and any ineligible prescriptions are shown before confirming.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">4</div>
+          <div><div class="step-title">Confirm address and choose time slot</div>
+          <div class="step-detail">Patient selects or confirms the delivery address and picks a time slot. Options show today and next-day availability.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">5</div>
+          <div><div class="step-title">Complete payment and track order</div>
+          <div class="step-detail">Patient finishes checkout and receives a confirmation. Order can be tracked in the app: Placed, Preparing, On the Way, Complete.</div></div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-header">Common Questions</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What prescriptions are NOT eligible for delivery?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            The following <strong>cannot be delivered:</strong>
+            <ul>
+              <li><strong>Specialty prescriptions</strong> (unless approved by the Specialty Pharmacy Manager)</li>
+              <li><strong>Medicare B DME</strong> (e.g., diabetic testing supplies): patient must pick up in store</li>
+              <li>Prescriptions in the <strong>RTS (Return to Stock)</strong> window</li>
+            </ul>
+            <div class="callout tip">💡 Compound prescriptions ARE eligible. Some insurance plans also restrict home delivery coverage. If unsure, verify with the patient's plan.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Is there a delivery fee? Who is exempt?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            The standard delivery fee is <strong>$7.95.</strong><br><br>
+            <strong>Fee is waived for:</strong>
+            <ul>
+              <li>Medicaid or Managed Medicaid patients</li>
+              <li>Dual Eligible patients (Medicare AND Medicaid together)</li>
+              <li>Special Programs patients</li>
+            </ul>
+            <strong>NOT exempt:</strong>
+            <ul>
+              <li>Medicare-only patients: the $7.95 fee applies</li>
+            </ul>
+            <div class="callout tip">💡 For app/online-paid orders, the fee is automatically waived if the patient qualifies. No extra steps needed.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">What are the cutoff times and delivery hours?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ul>
+              <li>Available <strong>Monday through Friday only.</strong> No stores have weekend delivery</li>
+              <li>Orders must be placed by <strong>2:00 PM</strong> for same-day delivery</li>
+              <li>Delivery happens within <strong>4 hours</strong> of the order being set up</li>
+              <li>All deliveries completed <strong>no later than 8:00 PM</strong></li>
+            </ul>
+            <strong>No delivery on these holidays:</strong>
+            <div class="callout alert">New Year's Day · MLK Day · Easter · Memorial Day · July 4th · Labor Day · Thanksgiving · Christmas</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Are there restrictions on where delivery can go?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Delivery is not available to:</strong>
+            <ul>
+              <li>Hotels</li>
+              <li>Most college campuses</li>
+              <li>Addresses more than <strong>15 miles</strong> from this store</li>
+            </ul>
+            <div class="callout tip">💡 If a patient is outside the delivery radius, their prescription may need to be transferred to a store within range.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Can a patient cancel or change their delivery?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>Yes.</strong> Patients can cancel in the <strong>My H-E-B app or website</strong> as long as the courier has not yet picked up the order.<br><br>
+            After courier pickup, the patient must call the pharmacy directly.
+            <div class="callout info">📞 Store phone: (210) 688-9584</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">Should delivery drivers accept tips?</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            <strong>No.</strong> Drivers should never request or accept tips from patients.<br><br>
+            If a patient reports this, submit a <strong>Home Delivery Issue Form</strong> on PartnerNet.
+          </div></div>
+        </div>
+      </div>`
+  },
+
+  signup: {
+    title: 'Help a Patient Sign Up', eyebrow: 'Sign-Up Cheat Sheet',
+    icon: '📲', color: '#EE2D24',
+    desc: 'Full 11-step walkthrough for helping a patient create an account and connect their pharmacy.',
+    html: `
+      <div class="block">
+        <div class="block-header">Part A: Create Account</div>
+        <div class="step-row">
+          <div class="step-num accent">1</div>
+          <div><div class="step-title">Download the My H-E-B app</div>
+          <div class="step-detail">Apple App Store or Google Play. Search "My H-E-B."</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num accent">2</div>
+          <div><div class="step-title">Tap "Sign Up"</div>
+          <div class="step-detail">On the welcome screen, tap the blue Sign Up button.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num accent">3</div>
+          <div><div class="step-title">Enter personal info</div>
+          <div class="step-detail">First name, last name, email, and mobile number. Must match info on file at the pharmacy.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num accent">4</div>
+          <div><div class="step-title">Agree to Terms & tap "Create Account"</div>
+          <div class="step-detail">Check the Terms & Conditions box, then tap Create Account.</div></div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-header">Part B: Link Pharmacy Account</div>
+        <div class="step-row">
+          <div class="step-num">5</div>
+          <div><div class="step-title">Tap the Pharmacy tab</div>
+          <div class="step-detail">Bottom navigation bar, far right. Opens the pharmacy dashboard.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">6</div>
+          <div><div class="step-title">Tap "Connect Account"</div>
+          <div class="step-detail">Blue button on the pharmacy screen.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">7</div>
+          <div><div class="step-title">Tap "Get Started"</div>
+          <div class="step-detail">Overview screen showing app features. Tap Get Started to continue.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">8</div>
+          <div><div class="step-title">Scan Rx bottle or enter Rx # manually</div>
+          <div class="step-detail">Point camera at the barcode on the label. If scan fails, tap "Enter Rx number manually." No bottle at all? Call the pharmacy to assist.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">9</div>
+          <div><div class="step-title">Enter prescription info → tap "Next"</div>
+          <div class="step-detail">First name, last name, CORP# <strong>(733 at this store)</strong>, and Rx number.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">10</div>
+          <div><div class="step-title">Enter date of birth → tap "Next"</div>
+          <div class="step-detail">Enter the patient's date of birth in the field provided.</div></div>
+        </div>
+        <div class="step-row">
+          <div class="step-num">11</div>
+          <div><div class="step-title">Choose verification method & submit code</div>
+          <div class="step-detail">Select Text, Email, or Call → Send Code → enter received code → Submit Code. Done! ✅</div></div>
+        </div>
+      </div>`
+  },
+
+  contacts: {
+    title: 'Contacts & Escalation', eyebrow: 'Support & Escalation',
+    icon: '📞', color: '#1E3A5F',
+    desc: 'Key numbers and next steps for situations that need to be escalated.',
+    html: `
+      <div class="block">
+        <div class="block-header">Quick Contacts</div>
+        <a class="contact-row" href="tel:+12106889584">
+          <div class="contact-icon">🏪</div>
+          <div>
+            <div class="contact-label">Our Store, H-E-B Pharmacy #733</div>
+            <div class="contact-value">(210) 688-9584</div>
+            <div class="contact-note">12125 Alamo Ranch Pkwy, San Antonio TX</div>
+          </div>
+        </a>
+        <a class="contact-row" href="tel:+18773204031">
+          <div class="contact-icon">🛠️</div>
+          <div>
+            <div class="contact-label">App Tech Support Line</div>
+            <div class="contact-value">877-320-4031</div>
+            <div class="contact-note">Mon–Fri · 9 AM – 6 PM CT</div>
+          </div>
+        </a>
+      </div>
+      <div class="block">
+        <div class="block-header">When to Escalate</div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">When to submit an Rx Solutions form</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            Submit when a patient has <strong>duplicate profiles in RxEVO</strong> that need merging. This is the most common escalation when a patient can't see all their medications.
+            <div class="callout tip">💡 Always verify duplicate profiles in RxEVO before submitting the form.</div>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">When to call App Tech Support</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            Call <strong>877-320-4031</strong> (Mon–Fri, 9 AM–6 PM CT) for:
+            <ul>
+              <li>App login issues that can't be resolved in-store</li>
+              <li>Technical app errors not related to pharmacy records</li>
+              <li>Payment processing issues within the app</li>
+            </ul>
+          </div></div>
+        </div>
+        <div class="faq-row">
+          <div class="faq-q" onclick="toggleFAQ(this)">
+            <span class="faq-q-text">When to update contact info in RxEVO</span>
+            <span class="faq-chevron">▼</span>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">
+            Update RxEVO whenever a patient reports:
+            <ul>
+              <li>Not receiving a verification code</li>
+              <li>Verification options not appearing during sign-up</li>
+              <li>Wrong phone number or email on their pharmacy account</li>
+            </ul>
+            After updating, always have the patient <strong>restart the sign-up process from the beginning.</strong>
+          </div></div>
+        </div>
+      </div>`
+  }
+
+};
+
+function openSection(id) {
+  const s = sections[id];
+  document.getElementById('home-view').classList.remove('active');
+  document.getElementById('section-view').classList.add('active');
+  document.getElementById('backBtn').classList.add('show');
+  document.getElementById('headerEyebrow').textContent = s.eyebrow;
+  document.getElementById('headerTitle').textContent = s.title;
+  const hero = document.getElementById('section-hero');
+  hero.style.background = s.color;
+  hero.setAttribute('data-icon', s.icon);
+  hero.innerHTML = `<div class="section-hero-title">${s.icon} ${s.title}</div><div class="section-hero-desc">${s.desc}</div>`;
+  document.getElementById('section-content').innerHTML = s.html;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function goHome() {
+  document.getElementById('section-view').classList.remove('active');
+  document.getElementById('home-view').classList.add('active');
+  document.getElementById('backBtn').classList.remove('show');
+  document.getElementById('headerEyebrow').textContent = 'H-E-B Pharmacy · Store #733';
+  document.getElementById('headerTitle').textContent = 'Employee App Guide';
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function toggleFAQ(btn) {
+  const row = btn.closest('.faq-row');
+  const wasOpen = row.classList.contains('open');
+  row.closest('.block').querySelectorAll('.faq-row.open').forEach(r => r.classList.remove('open'));
+  if (!wasOpen) row.classList.add('open');
+}
+</script>
+</body>
+</html>
